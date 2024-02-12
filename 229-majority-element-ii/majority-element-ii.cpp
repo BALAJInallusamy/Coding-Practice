@@ -12,7 +12,6 @@ public:
             if(nums[i]!=two && c2>0 && nums[i]!=one) c2--;
             if(c1==0) one=1e9+1;
             if(c2==0) two=1e9+1; 
-            cout<<c1<<" "<<c2<<endl;
         }
         c1=0;c2=0;vector<int> ans;
         for (auto it:nums){
