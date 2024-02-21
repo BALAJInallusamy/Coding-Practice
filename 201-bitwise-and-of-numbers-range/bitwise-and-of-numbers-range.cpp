@@ -1,23 +1,18 @@
 class Solution {
 public:
     int rangeBitwiseAnd(int left, int right) {
-        int x = 0;
-
-        while (left != right)
-        {
-            
-            left >>= 1;
-            right >>= 1;
-            x++;
+        int c = 0;
+        while(left!=right){
+            left>>=1;
+            right>>=1;
+            c++;
         }
-
-        while (x)
-        {
-            left <<= 1;
-            right <<= 1;
-            x--;
-        }
-
+        left<<=c;
         return left;
     }
 };
+
+
+
+// 1010 
+// 1011
