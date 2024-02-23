@@ -1,24 +1,46 @@
 class Solution {
 public:
-        /*  In bellman-ford algo calculates the shortest distance from the source
-        point to all of the vertices.
-        Time complexity of Bellman-Ford is O(VE),
-    */
-    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int K) {
-        /* distance from source to all other nodes */
-        vector<int> dist( n, INT_MAX );
-        dist[src] = 0;
-        
-        // Run only K+1 times since we want shortest distance in K hops
-        for( int i=0; i <= K; i++ ) {
-            vector<int> tmp( dist );
-            for( auto flight : flights ) {
-                if( dist[ flight[0] ] != INT_MAX ) {
-                    tmp[ flight[1] ] = min( tmp[flight[1]], dist[ flight[0] ] + flight[2] );
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) 
+    {
+        vector<int>distance(n+1,INT_MAX);
+        //this is for setting the distance array with INT_MAX means infinity
+        unordered_map<int,vector<pair<int,int>>>adj;//this is for adjacency list
+        for(int i=0;i<flights.size();i++)
+        {
+            int u=flights[i][0];
+            int v=flights[i][1];
+            int wt=flights[i][2];
+            adj[u].push_back({v,wt});//this is for pushing in the adjacency list
+        }
+        queue<pair<int,int>>q;
+        q.push({src,0});//this is for pushing in the queue
+        distance[src]=0;
+        while(!q.empty()&&k>=0)
+        {
+            int n=q.size();
+            while(n--)
+            {
+                auto it=q.front();//getting the front of the queue
+                int node=it.first;//this is for node
+                int dista=it.second;//this is for distance
+                q.pop();
+                for(auto itr:adj[node])//exploring all its neighbour
+                {
+                    int nod=itr.first;
+                    int di=itr.second;
+                    if(di+dista<distance[nod])
+                    {
+                        distance[nod]=di+dista;
+                        q.push({nod,distance[nod]});
+                    }
                 }
             }
-            dist = tmp;
+            k--;
         }
-        return dist[dst] == INT_MAX ? -1 : dist[dst];
+        if(distance[dst]>=INT_MAX)
+        {
+            return -1;
+        }
+        return distance[dst];
     }
 };
