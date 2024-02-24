@@ -27,7 +27,7 @@ public:
             int time = A[i][2];
             for (; i < M && A[i][2] == time; ++i) { // For all the meetings happening at the same time
                 uf.connect(A[i][0], A[i][1]); // Connect the two persons
-                ppl.push_back(A[i][0]); // Add both persons into the pool
+                ppl.push_back(A[i][0]); 
                 ppl.push_back(A[i][1]);
             }
             for (int n : ppl) { 
