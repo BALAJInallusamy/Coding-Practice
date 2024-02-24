@@ -1,8 +1,4 @@
-// OJ: https://leetcode.com/problems/find-all-people-with-secret/
-// Author: github.com/lzl124631x
-// Time: O(MlogM + (M + N) * logN) where `M` is the length of `meetings`
-//        Can be reduced to `O(MlogM + (M + N) * alpha(N))`
-// Space: O(M + N). Can be reduced to O(N) if we make `ppl` an `unordered_set`.
+
 class UnionFind {
     vector<int> id;
 public:
