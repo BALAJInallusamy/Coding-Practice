@@ -18,15 +18,15 @@ public:
 class Solution {
 public:
     vector<int> findAllPeople(int n, vector<vector<int>>& A, int firstPerson) {
-        sort(begin(A), end(A), [](auto &a, auto &b) { return a[2] < b[2]; }); // Sort the meetings in ascending order of meeting time
+        sort(begin(A), end(A), [](auto &a, auto &b) { return a[2] < b[2]; }); 
         UnionFind uf(n);
-        uf.connect(0, firstPerson); // Connect person 0 with the first person
+        uf.connect(0, firstPerson); 
         vector<int> ppl;
         for (int i = 0, M = A.size(); i < M; ) {
             ppl.clear();
             int time = A[i][2];
-            for (; i < M && A[i][2] == time; ++i) { // For all the meetings happening at the same time
-                uf.connect(A[i][0], A[i][1]); // Connect the two persons
+            for (; i < M && A[i][2] == time; ++i) { 
+                uf.connect(A[i][0], A[i][1]); 
                 ppl.push_back(A[i][0]); 
                 ppl.push_back(A[i][1]);
             }
