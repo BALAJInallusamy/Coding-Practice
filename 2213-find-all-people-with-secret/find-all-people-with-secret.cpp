@@ -1,4 +1,3 @@
-
 class UnionFind {
     vector<int> id;
 public:
