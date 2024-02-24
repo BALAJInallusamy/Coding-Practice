@@ -31,7 +31,7 @@ public:
                 ppl.push_back(A[i][1]);
             }
             for (int n : ppl) { // For each person in the pool, check if he/she's connected with person 0.
-                if (!uf.connected(0, n)) uf.reset(n); // If not, this person doesn't have secret, reset it.
+                if (!uf.connected(0, n)) uf.reset(n); 
             }
         }
         vector<int> ans;
