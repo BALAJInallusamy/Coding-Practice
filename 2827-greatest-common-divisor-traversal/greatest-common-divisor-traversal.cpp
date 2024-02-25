@@ -1,50 +1,79 @@
-class Solution {
-public:
-unordered_map<int, vector<int>> prime2index;
-unordered_map<int, vector<int>> index2prime;
-void dfs(int index, vector<int>& visitedIndex, unordered_map<int,bool>& visitedPrime){
-if(visitedIndex[index] == true) return;
-visitedIndex[index] = true;
+const int mex = 1e5 + 5;
 
-for(auto &prime : index2prime[index]){
-if(visitedPrime[prime] == true) 
-continue;
-visitedPrime[prime] = true;
-for(auto &index1 : prime2index[prime]){
-if(visitedIndex[index1] == true) continue;
-dfs(index1, visitedIndex, visitedPrime);
-}
-}
-}
+int par[mex];
+int siz[mex];
+int A[mex];
 
-bool canTraverseAllPairs(vector<int>& nums) {
-for (int i=0; i<nums.size(); i++) {
-int temp = nums[i];
-for (int j = 2; j*j <= nums[i]; j++) {
-if (temp % j == 0) {
-    prime2index[j].push_back(i);
-    index2prime[i].push_back(j);
-    while (temp % j == 0)
-        temp /= j;
-}
-}
-if (temp > 1) {
-prime2index[temp].push_back(i);
-index2prime[i].push_back(temp);
-}
+void init(int x)
+{
+    for (int i = 0; i <= x; ++i)
+    {
+        par[i] = i;
+        siz[i] = 1;
+        A[i] = 0;
+    }
+
+    for (int i = 2; i <= x; ++i)
+    {
+        if (A[i] == 0)
+        {
+            A[i] = i;
+            for (int j = 2 * i; j <= x; j += i)
+            {
+                A[j] = i;
+            }
+        }
+    }
 }
 
-vector<int> visitedIndex(nums.size(),0);
-unordered_map<int,bool> visitedPrime;
-dfs(0, visitedIndex, visitedPrime);     
-
-for(int i=0; i<visitedIndex.size(); i++) 
-if(visitedIndex[i] == false) 
-return false;
-return true;    
+int finder(int x)
+{
+    if (x == par[x]) return x;
+    return par[x] = finder(par[x]);
 }
+
+void merge(int a, int b)
+{
+    int x1 = finder(a);
+    int x2 = finder(b);
+    if (x1 != x2)
+    {
+        par[x2] = x1;
+        siz[x1] += siz[x2];
+    }
+}
+
+class Solution
+{
+    public:
+        bool canTraverseAllPairs(vector<int> &v)
+        {
+            int x = 0;
+            if(v.size()==1)
+                return true;
+            for (auto i: v)
+            {
+                if (i == 1) return false;
+                x = max(x, i);
+            }
+            init(x);
+
+            for (auto i: v)
+            {
+                int x = i;
+                while (x > 1)
+                {
+                    int p = A[x];
+                    merge(i, p);
+                    while (x % p == 0 && x > 1)
+                        x /= p;
+                }
+            }
+
+            int f = finder(v[0]);
+            for (auto i: v)
+                if (finder(i) != f)
+                    return false;
+            return true;
+        }
 };
-
-
-
-
