@@ -17,11 +17,11 @@ for (int i = 2; i <= x; ++i)
 {
 if (A[i] == 0)
 {
-A[i] = i;
-for (int j = 2 * i; j <= x; j += i)
-{
-    A[j] = i;
-}
+    A[i] = i;
+    for (int j = 2 * i; j <= x; j += i)
+    {
+        A[j] = i;
+    }
 }
 }
 }
@@ -48,32 +48,32 @@ class Solution
 public:
 bool canTraverseAllPairs(vector<int> &v)
 {
-int x = 0;
-if(v.size()==1)
-    return true;
-for (auto i: v)
-{
-    if (i == 1) return false;
-    x = max(x, i);
-}
-init(x);
-
-for (auto i: v)
-{
-    int x = i;
-    while (x > 1)
+    int x = 0;
+    if(v.size()==1)
+        return true;
+    for (auto i: v)
     {
-        int p = A[x];
-        merge(i, p);
-        while (x % p == 0 && x > 1)
-            x /= p;
+        if (i == 1) return false;
+        x = max(x, i);
     }
-}
+    init(x);
 
-int f = finder(v[0]);
-for (auto i: v)
-    if (finder(i) != f)
-        return false;
-return true;
+    for (auto i: v)
+    {
+        int x = i;
+        while (x > 1)
+        {
+            int p = A[x];
+            merge(i, p);
+            while (x % p == 0 && x > 1)
+                x /= p;
+        }
+    }
+
+    int f = finder(v[0]);
+    for (auto i: v)
+        if (finder(i) != f)
+            return false;
+    return true;
 }
 };
