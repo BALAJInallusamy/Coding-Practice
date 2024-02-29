@@ -19,8 +19,8 @@ public:
         while(!q.empty() ){
             n=q.size();
             for(int i=0;i<n;i++){
-                if(i>0 && level%2==1 && temp->val<=q.front()->val) {return false;}
-                if(i>0 && level%2==0 && temp->val>=q.front()->val){return false;} 
+                if(i>0 && level%2==1 && temp->val<=q.front()->val) return false;
+                if(i>0 && level%2==0 && temp->val>=q.front()->val) return false;
                 temp=q.front();
                 q.pop();
                 if(level%2==1 && temp->val%2==1){
