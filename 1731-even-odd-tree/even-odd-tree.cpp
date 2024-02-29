@@ -23,12 +23,10 @@ public:
                 if(i>0 && level%2==0 && temp->val>=q.front()->val) return false;
                 temp=q.front();
                 q.pop();
-                if(level%2==1 && temp->val%2==1){
-                    return false;
-                }
-                if(level%2==0 && temp->val%2==0){
-                    return false;
-                }
+                if(level%2==1 && temp->val%2==1)    return false;
+                
+                if(level%2==0 && temp->val%2==0)    return false;
+        
                 if(temp->left) q.push(temp->left);
                 if(temp->right) q.push(temp->right);
             }
