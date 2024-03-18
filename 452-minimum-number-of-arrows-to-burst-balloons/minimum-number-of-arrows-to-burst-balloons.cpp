@@ -5,7 +5,7 @@ public:
         int n=points.size(), ans=0;
         for(int i=0;i<n;i++){
             if(i<n-1 && points[i][1]>= points[i+1][0]){
-                points[i+1][0]=points[i][0];
+                //points[i+1][0]=points[i][0];
                 points[i+1][1]=min(points[i][1],points[i+1][1]);
             }
             else{
