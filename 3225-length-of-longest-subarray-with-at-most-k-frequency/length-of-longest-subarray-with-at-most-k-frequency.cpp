@@ -2,25 +2,20 @@ class Solution {
 public:
     int maxSubarrayLength(vector<int>& nums, int k) {
         unordered_map<int,int> mp;
-        int l=0,r=0,n=nums.size(),ans=0,count=0, maxi=0;
-        while(r<n && l<=r){
-           
-        maxi=++mp[nums[r]];
-        
-        while(maxi>k && l<=r && l<n){
-            if(nums[l]==nums[r]){ maxi=--mp[nums[l++]];}
-            else --mp[nums[l++]];
-        }
-        //l++;
-        if(l>r) l=r;
-        
-        
-        if(maxi<=k) {
-            count=r-l+1;
-            ans=max(count,ans);
-            r++;
+        int i=0;
+        int j=0;
+        int max_length=0;
+        while(j<nums.size()) {
+            mp[nums[j]]++;
+            while(mp[nums[j]]>k) {
+                mp[nums[i]]--;
+                i++;
             }
+            max_length=max(max_length,j-i+1);
+            j++;
+
+
         }
-            return ans;
+        return max_length;
     }
 };
