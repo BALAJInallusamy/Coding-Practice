@@ -1,22 +1,19 @@
+#include <bits/stdc++.h>
 class Solution {
 public:
-    std::string makeGood(std::string s) {
-        std::stack<char> stack;
+    string makeGood(string s) {
         
-        for (char c : s) {
-            if (!stack.empty() && std::abs(c - stack.top()) == 32) {
-                stack.pop();
-            } else {
-                stack.push(c);
+        string result= "";
+    
+        for(char &ch:s){
+            if(!result.empty()&&(result.back() +32 == ch || 
+            result.back()-32 == ch)){
+                result.pop_back();   
+            }else{
+                result.push_back(ch);
             }
+
         }
-        
-        std::string result;
-        while (!stack.empty()) {
-            result = stack.top() + result;
-            stack.pop();
-        }
-        
         return result;
     }
 };
