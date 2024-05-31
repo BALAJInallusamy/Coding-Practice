@@ -14,6 +14,7 @@ public:
 
                 q = q.first > temp.first ? temp:q;
             }
+            ans[child]=q.second;
             return q;
         }
     }
@@ -22,6 +23,7 @@ public:
         vector<int> ans(n);
         for(int i=0;i<n;i++) ans[i]=i;
         if(richer.size()==0) return ans;
+        for(int i=0;i<n;i++) ans[i]=n;
 
         vector<vector<int>> graph(n);
 
@@ -32,6 +34,7 @@ public:
         }
 
         for(int i=0;i<n;i++){
+            if(ans[i]==n)
             ans[i]=rec(i,graph,quiet,ans).second;
         }
         return ans;
