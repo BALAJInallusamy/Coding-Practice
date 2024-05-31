@@ -8,7 +8,6 @@ public:
         while(( x & (1<<lower) )== 0){
             lower++;
         }
-        cout<<x<<" "<<lower;
         for(int i=0; i<n; i++ ){
             if(( (nums[i]>>lower) &1 )==1) a^=nums[i];
             else b^=nums[i];
