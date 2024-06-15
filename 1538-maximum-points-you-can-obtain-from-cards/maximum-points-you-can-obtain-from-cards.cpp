@@ -12,7 +12,6 @@ public:
             int sub= 0;
             if(i) sub=cardPoints[i+n -k-1]-cardPoints[i-1];
             else sub=cardPoints[i+n-k-1];
-            cout<<sub<<" ";
             ans=max(ans,total- sub);
         }
         return ans;
