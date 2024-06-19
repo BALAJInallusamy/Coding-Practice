@@ -23,6 +23,7 @@ public:
                     vis[temp]=1;
                     for(auto it:graph[temp]){
                         if(vis[it]==0) st.push(it);
+                        vis[it]=1;
                     }
                 }
             }
