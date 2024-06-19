@@ -1,21 +1,39 @@
+#include <vector>
+
 class Solution {
 public:
-    bool checkSubarraySum(vector<int>& nums, int k) {
-        int n=nums.size();
-        vector<int> pre(n,nums[0]%k);
-        unordered_map<int,int> st;
-        st[0]=-1;
-        for(int i=0;i<n;i++) {
-            if(i>0) pre[i]=(pre[i-1]+nums[i])%k;
-            if( st.find( pre[i] ) != st.end() ) {
-                if( (i- st[pre[i]] ) > 1 ) return true;
-                }
-            else st[pre[i]]=i;
+    bool checkSubarraySum(std::vector<int>& numbers, int divisor) {
+        ios::sync_with_stdio(false); 
+        cin.tie(0); 
+        cout.tie(0);
+
+        int currentSum = numbers[0];
+        int length = numbers.size();
+        int index, tempSum;
+        
+        for (int i = 1; i < length; i++) {
+            if (numbers[i] == numbers[i - 1] && numbers[i] == 0) {
+                return true;
             }
-       return false;
+            
+            currentSum += numbers[i];
+            
+            if (currentSum % divisor == 0) {
+                return true;
+            }
+            
+            index = 0;
+            tempSum = currentSum;
+            
+            while ((i - index) > 1 && tempSum >= divisor) {
+                tempSum -= numbers[index++];
+                
+                if (tempSum % divisor == 0) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
     }
 };
-
-// 1 2 4 0 1
-// 1 3 1 1 2 
-// 
