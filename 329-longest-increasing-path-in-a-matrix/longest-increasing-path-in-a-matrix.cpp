@@ -25,9 +25,6 @@ public:
                 ans=max(dp[i][j],ans);
             }
         }
-        for(auto it:dp){
-            for(auto x:it) cout<<x<<" ";cout<<endl;
-        }
         return ans;
     }
 };
