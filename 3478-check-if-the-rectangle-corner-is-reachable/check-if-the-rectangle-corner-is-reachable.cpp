@@ -5,12 +5,7 @@ public:
         vector<int> all(n);
         vector<int> up(n),left(n),right(n),down(n),out(n);
         for(int i = 0 ;i<n ;i++) all[i]= i;
-        function<void(int)> outf= [&] (int num){
-            vector<int> it = circles[num];
-            int r = it[2];
-
-            if( r*r>= (pow(it[0]-X,2) + pow(it[1]-Y,2)) && r*r>= pow(it[0],2) + pow(it[1]-Y,2) && r*r>= pow(it[0]-X,2) + pow(it[1],2) && r*r>= pow(it[0],2) + pow(it[1],2)) out[num]=1;
-        };
+        
         function<void(int)> upf= [&] (int num){
             vector<int> it = circles[num];
             int r = it[2];
@@ -54,7 +49,6 @@ public:
         };
 
         for(int i =0 ; i<n ; i++){
-            //outf(i);
             if(out[i]) continue;
             upf(i);  leftf(i);    rightf(i);   downf(i);
             for(int j = i+1; j< n ;j++){
@@ -87,11 +81,7 @@ public:
                 }
             }
         }
-        for(auto it: all) cout<<it<<" ";cout<<endl;
-        for(auto it: up) cout<<it<<" ";cout<<endl;
-        for(auto it: down) cout<<it<<" ";cout<<endl;
-        for(auto it: left) cout<<it<<" ";cout<<endl;
-        for(auto it: right) cout<<it<<" ";cout<<endl;
+        
 
         for(int i =0 ;i<n ; i++){
             if(up[all[i]] && (down[all[i]] || right[all[i]])) return false;
