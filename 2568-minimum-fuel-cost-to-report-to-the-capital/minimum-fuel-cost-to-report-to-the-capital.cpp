@@ -15,7 +15,7 @@ public:
             if (x == prev) continue;
             people += dfs(x, i, graph);
         }
-        if (i != 0) ans += (people + s - 1) / s;
+        if (i != 0) ans += (people - 1) / s + 1;
         return people;
     }    
 };
