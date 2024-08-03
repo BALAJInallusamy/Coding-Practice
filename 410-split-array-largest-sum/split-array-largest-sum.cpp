@@ -1,33 +1,36 @@
+
 class Solution {
 public:
-    int rec(int start, int n, vector<int>& split, vector<vector<int>>& dp, int k){
-
-        if(start>=n ) return -1e9;
-        if(k==0) return start>0 ? split[n-1] - split[start-1]: split[n-1] ;
-
-        if(dp[start][k]!=-1) return dp[start][k];
-
-        int ans=INT_MAX;
-        for(int i=start; i<n; i++){
-            int pre= split[i];
-            if(start>0) pre-= split[start-1];
-            int next= rec(i+1,n,split,dp,k-1);
-            int cur= max( pre, next );
-            ans = min(ans , cur);
-        }
-        return dp[start][k]=ans;
-    }
     int splitArray(vector<int>& nums, int k) {
-        int n= nums.size();
-        vector<int> split(n,nums[0]);
-
-        for(int i=1;i<n;i++){
-            split[i]=nums[i]+split[i-1];
-            
+        int n = nums.size();
+        vector<int> pre(n+1);
+        vector<vector<int>> dp(k,vector<int> ( n , 1e9));
+        for(int i =0 ;i<n ; i++ ){
+            pre[i+1] = pre[i] + nums[i];
         }
-        vector<vector<int>> dp(n,vector<int>(k,-1));  
-       int ans = rec(0,n,split,dp,k-1);
-        return ans;
-        
+        for(int j = 0 ; j< n ; j++){
+            dp[0][j] = pre[j+1] - pre[0];
+        }
+
+        for(int m = 1; m < k ; m++){
+            for(int i = m ; i< n ; i++){
+                for(int j = m-1 ; j<i ; j++ ){
+
+                    int sub = pre[i+1] - pre[j+1];
+                    dp[m][i] = min( max(dp[m-1][j] , sub), dp[m][i] );
+
+                }
+            }
+        }
+        // for(auto it:dp){
+        //     for(auto x : it) cout<<x<<" ";
+        //     cout<<endl; 
+        // }
+        return dp[k-1][n-1];
     }
 };
+
+// dp[m][i] => minimum largest sum of m groups which end at i 
+// 7 2 5 10 8
+//   i
+//  j
