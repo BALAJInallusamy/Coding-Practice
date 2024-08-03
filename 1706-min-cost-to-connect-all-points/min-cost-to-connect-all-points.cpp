@@ -1,44 +1,46 @@
-int manhattan_distance(vector<int>& p1, vector<int>& p2) {
+int man(vector<int>& p1, vector<int>& p2) {
     return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1]);
 }
+
 
 class Solution {
 public:
     int minCostConnectPoints(vector<vector<int>>& points) {
         int n = points.size();
-        vector<bool> visited(n, false);
-        unordered_map<int, int> heap_dict;
-        for(int i = 0; i < n; ++i) {
-            heap_dict[i] = INT_MAX; // Initialize all distances to infinity
-        }
-        heap_dict[0] = 0; // Start node
-        
-        auto cmp = [](pair<int, int> left, pair<int, int> right) { return left.first > right.first; };
-        priority_queue<pair<int, int>, vector<pair<int, int>>, decltype(cmp)> min_heap(cmp);
-        min_heap.push({0, 0});
-        
-        int mst_weight = 0;
-        
-        while (!min_heap.empty()) {
-            auto [w, u] = min_heap.top();
-            min_heap.pop();
-            
-            if (visited[u] ) continue;
-            
-            visited[u] = true;
-            mst_weight += w;
-            
-            for (int v = 0; v < n; ++v) {
-                if (!visited[v]) {
-                    int new_distance = manhattan_distance(points[u], points[v]);
-                    if (new_distance < heap_dict[v]) {
-                        heap_dict[v] = new_distance;
-                        min_heap.push({new_distance, v});
-                    }
-                }
+        vector<int> parent(n);
+        for(int i = 0 ;i< n; i++) parent[i] = i;
+
+        function<int(int)> find =[&] (int i) {
+            if(i == parent[i]) return i;
+            else parent[i] = find(parent[i]);
+            return parent[i];
+        };
+        auto uni = [&] (int a, int b){
+            a = find(a);
+            b = find(b);
+            if (a == b) return false;
+            else{
+                parent[a] = b;
+                return true;
             }
+        };
+        vector<vector<int>> edges;
+
+        for(int i = 0 ; i<n ; i++){
+            for(int j= i+1 ; j < n ; j++)
+            edges.push_back({ man( points[i], points[j] ), i , j });
         }
-        
-        return mst_weight;
+        int ans = 0, count = 0;
+        sort(edges.begin() , edges.end());
+        for( auto it : edges){
+            auto w  = it[0], u = it[1] , v = it[2];
+            if( uni(u,v) ){
+                ans += w;
+                count++;
+            }
+            if( count == n-1) return ans;
+        }
+        return 0;
+
     }
 };
