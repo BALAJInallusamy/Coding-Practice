@@ -20,7 +20,10 @@ public:
 
                 if( x >= m || y >= n || x<0 || y < 0 ) continue;
                 int d = time +1;
-                while(d<grid[x][y]) d += 2;
+                if(d<grid[x][y]){
+                    if( (grid[x][y] - d) % 2 == 0 ) d = grid[x][y];
+                    else d = grid[x][y]+1;
+                }
                 if( dp[x][y] > d) {
 
                     dp[x][y] = d;
