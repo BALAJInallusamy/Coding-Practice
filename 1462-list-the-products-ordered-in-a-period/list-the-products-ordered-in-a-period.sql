@@ -1,7 +1,4 @@
-# Write your MySQL query statement below
-
-SELECT p.product_name AS product_name, sum(o.unit) AS unit FROM Products p
-JOIN Orders o on p.product_id = o.product_id
-WHERE YEAR(o.order_date)='2020' AND MONTH(o.order_date)='02'
-GROUP BY p.product_id
-HAVING SUM(o.unit)>=100
+    select * from (
+    select product_name , sum(unit) as unit from Products join orders using(product_id) 
+    where (MONTH(order_date) = '02' AND YEAR(order_date) = '2020')
+    group by product_id) as t where unit>=100;
