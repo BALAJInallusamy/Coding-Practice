@@ -1,41 +1,33 @@
-#include <vector>
-#include <stack>
-#include <algorithm>
-
-using namespace std;
-
 class Solution {
 public:
-    int largestRectangleArea(vector<int>& heights) {
+    int maximalRectangle(vector<vector<char>>& mat) {
+        int n = mat.size(), m = mat[0].size();
+        vector<int> h(m+1,0);
         int ans = 0;
-        stack<int> stk;
-        
-        for (int i = 0; i <= heights.size(); ++i) {
-            while (!stk.empty() && (i == heights.size() || heights[stk.top()] > heights[i])) {
-                int h = heights[stk.top()];
-                stk.pop();
-                int w = stk.empty() ? i : i - stk.top() - 1;
-                ans = max(ans, h * w);
+        for(int k = 0 ; k <n ; k ++){
+            stack<int> mon;
+            mat[k].push_back(0);
+
+            for(int i = 0 ; i<m+1 ; i++){
+                
+                h[i] = (mat[k][i] =='1') ? h[i] + 1 : 0;
+
+                while( mon.size() && h[mon.top()] >= h[i]){
+                    int top = mon.top();
+                    mon.pop();
+                    int size = mon.size()>0  ? mon.top(): -1;
+                    ans = max(ans, h[top]*(i-size -1 ));
+                
+                }
+                mon.push(i);
             }
-            stk.push(i);
+            cout<<endl;
         }
-        
-        return ans;
-    }
-    
-    int maximalRectangle(vector<vector<char>>& matrix) {
-        if (matrix.empty())
-            return 0;
-        
-        int ans = 0;
-        vector<int> hist(matrix[0].size(), 0);
-        
-        for (auto& row : matrix) {
-            for (int i = 0; i < row.size(); ++i)
-                hist[i] = row[i] == '0' ? 0 : hist[i] + 1;
-            ans = max(ans, largestRectangleArea(hist));
-        }
-        
         return ans;
     }
 };
+
+// h = 3 1 3 2 2
+// -1 3 1
+// 1 3 
+
