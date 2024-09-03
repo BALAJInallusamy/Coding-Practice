@@ -7,7 +7,6 @@ public:
         k--;
         while(s.size()>1){
             int ind = (last+k)%(s.size());
-            cout<<s[ind]<<" ";
             s.erase(s.begin()+ind);
             last = ind;
         }
