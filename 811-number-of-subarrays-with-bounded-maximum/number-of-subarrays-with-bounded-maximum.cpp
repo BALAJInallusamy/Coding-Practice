@@ -1,19 +1,25 @@
 class Solution {
 public:
-    int numSubarrayBoundedMax(vector<int>& nums, int left, int right) {
-        int n = nums.size();
-        int bad = -1, good = -1;
-        int ans = 0;
-        for(int i = 0 ; i<n ; i++){
-            if(nums[i] > right ){
-                bad = i;
+    int numSubarrayBoundedMax(vector<int>& A, int L, int R) {
+        int res = 0, heads = 0, tails = 0;
+        for (int val : A) {
+            if (L <= val && val <= R) {
+                // val is a head. All tails promoted to heads
+                heads+= tails + 1;
+                tails = 0;
+                res += heads;
             }
-            if(nums[i] >= left && nums[i]<= right){
-                good = i;
+            else if (val < L) {
+                // val is a tail, can extend existing subarrays
+                tails++;
+                res += heads;
             }
-            // cout<<good-bad<<" ";
-            ans += max(0,good - bad);
+            else {
+                // combo breaker
+                heads = 0;
+                tails = 0;
+            }
         }
-        return ans;
+        return res;
     }
 };
