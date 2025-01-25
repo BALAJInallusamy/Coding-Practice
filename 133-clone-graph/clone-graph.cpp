@@ -21,30 +21,25 @@ public:
 
 class Solution {
 public:
-    void rec(Node* node, unordered_map<int,vector<int>>& graph){
-        if(node != nullptr && graph.find(node->val) == graph.end()){
-            graph[node->val]={};
-            for(auto it:node->neighbors){
-                graph[node->val].push_back(it->val);
-                rec(it,graph);
-            }   
-        }
-        return;
-    }
+    unordered_map<Node*, Node*> mp;  // Map node to its cloned node
+
     Node* cloneGraph(Node* node) {
-        unordered_map<int,vector<int>> graph;
-        unordered_map<int,Node*> nodes;
-        rec(node,graph);
-        for(auto it:graph){
-            nodes[it.first]=new Node(it.first);
+        if (!node) return NULL;
+
+        // If the node is already cloned, return the clone
+        if (mp.find(node) != mp.end()) {
+            return mp[node];
         }
-        for(auto it:graph){
-            vector<Node*> adj={};
-            for(auto x:it.second){
-                adj.push_back(nodes[x]);
-            }
-            nodes[it.first]->neighbors=adj;
+
+        // Create a new node and map it to the original node
+        Node* head = new Node(node->val);
+        mp[node] = head;
+
+        // Recursively clone the neighbors
+        for (Node* neighbor : node->neighbors) {
+            head->neighbors.push_back(cloneGraph(neighbor));
         }
-        return nodes[1];
+
+        return head;
     }
 };
