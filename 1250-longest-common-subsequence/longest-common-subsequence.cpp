@@ -1,24 +1,27 @@
-int dp[1001][1001];
 class Solution {
 public:
-    int rec(int i, int j, int n, int m, string &text1, string &text2){
-        if(i >= n || j>= m ) return 0;
-        if(dp[i][j]!=-1){
-            return dp[i][j];
+    int longestCommonSubsequence(string s, string t) {
+        int n = s.size() , m = t.size();
+        vector<vector<int>> dp(n,vector<int>(m,0));
+        for(int i =0 ; i<n ; i++){
+            if(s[i] == t[0]) dp[i][0] = 1;
+            else if(i>0) dp[i][0] += dp[i-1][0];
         }
-        int picki=0;
-        for(int k=j;k<m;k++){
-            if(text1[i]==text2[k]){ 
-                picki=1+rec(i+1,k+1,n,m,text1,text2);
-                break;
+        for(int i =0 ; i<m ; i++){
+            if(s[0] == t[i]) dp[0][i] = 1;
+            else if(i>0) dp[0][i] += dp[0][i-1];
+        }
+        for(int i = 1; i<n ; i++){
+            for(int j = 1 ; j< m ; j++){
+                if( s[i] == t[j] ){
+                    dp[i][j] = max( 1+dp[i-1][j-1] , dp[i][j] );
                 }
+                else dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+            }
         }
-        int np=rec(i+1,j,n,m,text1,text2);
-        return dp[i][j]=max(picki,np);
-    }
-    int longestCommonSubsequence(string &text1, string &text2) {
-        memset(dp,-1,sizeof(dp));
-        int m=text2.size(), n=text1.size();
-        return rec(0,0,n,m,text1,text2);
+        // for(auto it: dp){
+        //     for(auto x:it) cout<<x<<" ";cout<<endl;
+        // }
+        return dp[n-1][m-1];
     }
 };
