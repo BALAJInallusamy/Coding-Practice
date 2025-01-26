@@ -1,30 +1,26 @@
-int dp[1001];
 class Solution {
 public:
-    bool count(string& s,int i, int j){
-        int k=(i-j)/2;
-        while(k>=0){
-            if(s[j+k]!=s[i-k]) return 0;
-            k--;
-        }
-        return true;
-    }
-
     int countSubstrings(string s) {
-        int n=s.size();
-        memset(dp,0,sizeof(dp));
-        for(int i=1;i<n;i++){
-            
-            dp[i]+=dp[i-1];
-
-            for(int j=0;j<i;j++){
-
-                if(s[j]!=s[i]) continue;
-                else{
-                    if(count(s,i,j)) dp[i]++;
+        int n = s.size();
+        int ans =0;
+        for(int i = 0 ; i< n ; i++){
+            int l = i , r= i;
+            while(l>-1 && r<n){
+                if( s[l--] == s[r++]){
+                    ans++;
                 }
+                else break;
+            }
+            if(i<n-1){
+                l =i ; r = i+1;
+            }
+            while(l>-1 && r<n){
+                if( s[l--] == s[r++]){
+                    ans++;
+                }
+                else break;
             }
         }
-        return dp[n-1]+n;
+        return ans;
     }
 };
